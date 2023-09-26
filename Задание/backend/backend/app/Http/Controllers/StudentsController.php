@@ -146,6 +146,7 @@ class StudentsController extends BaseController
         $turniket = Turniket::all();
 
         $arr = [];
+
         foreach ($turniket as $turnik){
             foreach ($students as $student){
                 if($turnik -> studentId == $student->id){
@@ -153,6 +154,8 @@ class StudentsController extends BaseController
                 }
             }
         }
+
+
 
         return response() -> json($arr);
 
