@@ -154,7 +154,10 @@ class StudentsController extends BaseController
                 }
             }
         }
+        foreach($arr as $studentName){
+            $studentName -> studentId = Student::find($studentName -> studentId) -> name;
 
+        }
 
 
         return response() -> json($arr);
