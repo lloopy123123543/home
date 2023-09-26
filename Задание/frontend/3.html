@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="global.css">
+  <title>Учитель</title>
+</head>
+
+<body>
+  <h1>Учитель</h1>
+  <div id="cont" class="container">
+
+  </div>
+
+  <script>
+
+    const block = document.getElementById("cont")
+    const Imya = document.getElementById("Imya");
+
+    const infoStudent = () => {
+      fetch('http://localhost:8000/api/turniket/info', {
+        method: "get",
+        headers: {
+          authorization: "Bearer " + localStorage.getItem("token")
+        }
+
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          data.map((dat) => {
+            let element = document.createElement("div");
+            element.className = "block";
+            element.innerHTML = "Имя: " + dat.studentId + " Вошел: " + dat.start_date + " Вышел: " + dat.end_date;
+            block.appendChild(element);
+          });
+          // for (let i = 0; i < data.length; i++) {
+          //   let elems = [];
+          //   let element = document.createElement("div").innerHTML = "Имя: " + data[i].studentId;
+          //   let sus = document.createElement("div").innerHTML = "Вошел: " + data[i].start_date;
+          //   let sas = document.createElement("div").innerHTML = "Вышел: " + data[i].end_date;
+          //   elems.push(element, sus, sas);
+          //   block.innerHTML = elems
+          // }
+        });
+
+    }
+    infoStudent()
+
+  </script>
+</body>
+
+</html>
