@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Group;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -11,6 +12,8 @@ use Illuminate\Routing\Controller as BaseController;
 use Symfony\Component\HttpFoundation\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Polzovatel;
+use App\Models\Turniket;
+
 class StudentsController extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
@@ -39,7 +42,7 @@ class StudentsController extends BaseController
                 ]
             ]);
         } else {
-      
+
             $user = Student::all()->where("id", $request->input("login"))->first();
             if ($user != null) {
                 if ($user->password == $request->input("password")) {
@@ -98,7 +101,7 @@ class StudentsController extends BaseController
                 ]
             ]);
         } else {
-      
+
             $user = Polzovatel::all()->where("login", $request->input("login"))->first();
             if ($user != null) {
                 if ($user->password == $request->input("password")) {
@@ -130,5 +133,28 @@ class StudentsController extends BaseController
     public function show_all(){
         $students = Student::all();
         return response()->json($students);
+    }
+
+
+    public function showGroupTurniket(Request $request){
+        $bearer = $request->header("authorization");
+        $token = explode(" ", $bearer)[1];
+        $user = Polzovatel::where("token", $token) -> first();
+        $group = Group::where("user_curator_id", $user->group)->first();
+        $students = Student::all()->where("groupId", $group->id);
+
+        $turniket = Turniket::all();
+
+        $arr = [];
+        foreach ($turniket as $turnik){
+            foreach ($students as $student){
+                if($turnik -> studentId == $student->id){
+                    array_push($arr, $turnik);
+                }
+            }
+        }
+
+        return response() -> json($arr);
+
     }
 }

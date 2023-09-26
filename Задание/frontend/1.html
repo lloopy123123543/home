@@ -1,40 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 </head>
+
 <body>
-    <h1>Директор</h1>
-    <div id="cont"></div>
-    
-    <script>
+  <h1>Директор</h1>
+  <div id="cont"></div>
 
-        const block = document.getElementById("cont")
-const Imya = document.getElementById("Imya");
+  <script>
 
-const infoStudent = () => {
-    fetch('http://localhost:8000/api/student/all', {
+    const block = document.getElementById("cont")
+    const Imya = document.getElementById("Imya");
+
+    const infoStudent = () => {
+      fetch('http://localhost:8000/api/student/all', {
         method: "get",
 
-    })
-  .then((response) => {
-    return response.json();
-  })
-  .then((data) => {
-    let elems = [];
-    for (let i = 0; i < data.length; i++) {
-        let element = document.createElement("div").innerHTML = data[i].name;
-        elems.push(element);
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          let elems = [];
+          for (let i = 0; i < data.length; i++) {
+            let element = document.createElement("div").innerHTML = data[i].name;
+            elems.push(element);
+          }
+          block.innerHTML = elems
+        });
+
     }
-    block.innerHTML = elems
-  });
+    infoStudent()
 
-}
-infoStudent()
-
-    </script>
+  </script>
 </body>
+
 </html>

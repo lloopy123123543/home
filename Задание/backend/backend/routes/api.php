@@ -37,3 +37,8 @@ Route::prefix('student')->group(function () {
     Route::get('all', [StudentsController::class, 'show_all']);
 });
 
+
+Route::prefix('turniket')->group(function () {
+    Route::get('info', [StudentsController::class, 'showGroupTurniket']);
+});
+

@@ -14,8 +14,10 @@
         <h1>Password</h1>
         <input id="password">
          <button type="button" id="sendButton">Авторизация</button>
-         <a id="student_link" href="/profile.html"></a>
+         <a id="link1" href="1.html"></a>
+         <a id="link2" href="2.html"></a>
     </form>
+
 
 
 
@@ -23,6 +25,8 @@
         let loginInput = document.getElementById("login");
 let passwordInput = document.getElementById("password");
 let sendButton = document.getElementById("sendButton");
+
+let directorButton = document.getElementById("director");
 
 // Объявляем функцию send
 const costil = () => {
@@ -49,7 +53,6 @@ const send = () => {
     localStorage.setItem("role", data.role);
     console.log(data)
     document.getElementById("link" + data.role).click();
-    document.getElementById("student_link").click();
   });
 };
 

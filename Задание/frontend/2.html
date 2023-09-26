@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>Сисадмин</h1>
+  <form>
+    <label for="label">Добавить пользователя</label>
+    <label>Имя</label>
+    <input id="nameInput" type="text" placeholder="Name">
+    <label>Login</label>
+    <input id="loginInput" type="text" placeholder="Login">
+    <label>Password</label>
+    <input id="passwordInput" type="text" placeholder="Password">
+    <label>role</label>
+    <input id="roleInput" type="number" placeholder="Role">
+    <button type="button" id="sendButton">Авторизация</button>
+  </form>
+
+  <div id="cont"></div>
+
+  <script>
+
+    const block = document.getElementById("cont")
+    const Imya = document.getElementById("Imya");
+
+    const sendButton = document.getElementById("sendButton");
+
+    const nameInput = document.getElementById("nameInput")
+    const loginInput = document.getElementById("loginInput")
+    const passwordInput = document.getElementById("passwordInput")
+    const roleInput = document.getElementById("roleInput")
+
+
+
+    const send = () => {
+
+      fetch('http://localhost:8000/api/user/create', {
+        method: "POST",
+        headers: {
+          'Content-Type': "application/json",
+        },
+        body: JSON.stringify({
+          login: loginInput.value,
+          password: passwordInput.value,
+          role: roleInput.value,
+          name: nameInput.value
+        })
+      })
+        .then((response) => {
+          console.log(response);
+          return response.json();
+
+        })
+        .then((data) => {
+          alert("success")
+        });
+    };
+
+    const infoStudent = () => {
+      fetch('http://localhost:8000/api/student/all', {
+        method: "get",
+
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          let elems = [];
+          for (let i = 0; i < data.length; i++) {
+            let element = document.createElement("div").innerHTML = data[i].name;
+            elems.push(element);
+          }
+          block.innerHTML = elems
+        });
+
+    }
+    infoStudent()
+    sendButton.addEventListener("click", send);
+
+  </script>
+</body>
+
+</html>
