@@ -11,11 +11,30 @@
 
 <body>
   <h1>Директор</h1>
-  <div id="cont"></div>
+  <div class="container">
+    <label>Студенты</label>
+    <div id="cont"></div>
+    <label>Сотрудники</label>
+    <div id="polzovatel"></div>
+
+    <form>
+      <label for="label">Добавить пользователя</label>
+      <label>Имя</label>
+      <input id="nameInput" type="text" placeholder="Name">
+      <label>Login</label>
+      <input id="loginInput" type="text" placeholder="Login">
+      <label>Password</label>
+      <input id="passwordInput" type="text" placeholder="Password">
+      <label>role</label>
+      <input id="roleInput" type="number" placeholder="Role">
+      <button type="button" id="sendButton">Создать пользователя</button>
+    </form>
+  </div>
 
   <script>
 
     const block = document.getElementById("cont")
+    const blockPolzovatel = document.getElementById("polzovatel")
     const Imya = document.getElementById("Imya");
 
     const infoStudent = () => {
@@ -28,14 +47,48 @@
         })
         .then((data) => {
           let elems = [];
-          for (let i = 0; i < data.length; i++) {
-            let element = document.createElement("div").innerHTML = data[i].name;
-            elems.push(element);
-          }
+          data.map((dat) => {
+            let element = document.createElement("div");
+            element.className = "block";
+            element.innerHTML ="id: " + dat.id + " ФИО: " + dat.name;
+            block.appendChild(element);
+          });
+          })
+
           block.innerHTML = elems
-        });
+
+        
 
     }
+
+
+    const infoPolzovatel = () => {
+      fetch('http://localhost:8000/api/polzovatel/show/all', {
+        method: "get",
+
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+
+
+
+          let elems = [];
+          data.map((dat) => {
+            let element = document.createElement("div");
+            element.className = "block";
+            element.innerHTML ="id: " + dat.id + " ФИО: " + dat.name + " Роль: " + dat.role;
+            blockPolzovatel.appendChild(element);
+          });
+          })
+          infoStudent()
+          blockPolzovatel.innerHTML = elems
+
+        ;
+
+    }
+    infoPolzovatel()
     infoStudent()
 
   </script>

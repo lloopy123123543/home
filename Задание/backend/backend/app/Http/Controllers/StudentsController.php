@@ -163,4 +163,25 @@ class StudentsController extends BaseController
         return response() -> json($arr);
 
     }
+
+    public function showAllPolzovatels(){
+        $polzovatels = Polzovatel::all();
+        $arr = [];
+        foreach($polzovatels as $polzovatel){
+            if($polzovatel -> role == 1){
+                $polzovatel -> role = "Директор";
+                array_push($arr, $polzovatel);
+            }
+            if($polzovatel -> role == 2){
+                $polzovatel -> role = "Сисадмин";
+                array_push($arr, $polzovatel);
+            }
+            if($polzovatel -> role == 3){
+                $polzovatel -> role = "Учитель";
+                array_push($arr, $polzovatel);
+            }
+
+        }
+        return response() -> json($arr);
+    }
 }

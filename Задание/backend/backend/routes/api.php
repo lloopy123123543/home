@@ -42,3 +42,7 @@ Route::prefix('turniket')->group(function () {
     Route::get('info', [StudentsController::class, 'showGroupTurniket']);
 });
 
+Route::prefix('polzovatel')->group(function () {
+    Route::get('show/all', [StudentsController::class, 'showAllPolzovatels']);
+});
+

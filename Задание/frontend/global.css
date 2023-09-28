@@ -7,9 +7,8 @@ body{
         flex-direction: column;
 }
 .container{
-    width: 1080px;
+    width: 1240px;
     display: flex;
-    flex-direction: column;
     gap: 5px;
 }
 .block{
@@ -23,4 +22,8 @@ body{
 }
 .block:hover{
     background-color: rgb(199, 199, 199);
+}
+form{
+    display: flex;
+    flex-direction: column;
 }

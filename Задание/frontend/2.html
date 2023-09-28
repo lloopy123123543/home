@@ -21,7 +21,7 @@
     <input id="passwordInput" type="text" placeholder="Password">
     <label>role</label>
     <input id="roleInput" type="number" placeholder="Role">
-    <button type="button" id="sendButton">Авторизация</button>
+    <button type="button" id="sendButton">Создать пользователя</button>
   </form>
 
   <div id="cont"></div>
@@ -74,14 +74,20 @@
         })
         .then((data) => {
           let elems = [];
-          for (let i = 0; i < data.length; i++) {
-            let element = document.createElement("div").innerHTML = data[i].name;
-            elems.push(element);
-          }
+          data.map((dat) => {
+            let element = document.createElement("div");
+            element.className = "block";
+            element.innerHTML ="id: " + dat.id + " ФИО: " + dat.name;
+            block.appendChild(element);
+          });
+          })
+
           block.innerHTML = elems
-        });
+
+        
 
     }
+
     infoStudent()
     sendButton.addEventListener("click", send);
 
