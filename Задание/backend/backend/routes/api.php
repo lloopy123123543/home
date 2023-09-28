@@ -35,6 +35,7 @@ Route::prefix('user')->group(function () {
 Route::prefix('student')->group(function () {
     Route::get('info', [StudentsController::class, 'student']);
     Route::get('all', [StudentsController::class, 'show_all']);
+    Route::post('change', [StudentsController::class, 'changeDataStudent']);
 });
 
 

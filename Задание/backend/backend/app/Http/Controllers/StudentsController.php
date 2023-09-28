@@ -184,4 +184,25 @@ class StudentsController extends BaseController
         }
         return response() -> json($arr);
     }
+
+    public function changeDataStudent(Request $request){
+        $id = $request-> input("id");
+        $student = Student::find($id);
+
+        $student -> name = $request -> input("name");
+
+        if ($request -> input("group") != ""){
+            $student -> groupId = $request -> input("group");
+        }
+
+        if ($request -> input("password") != ""){
+            $student -> password = $request -> input("password");
+        }
+
+
+        $student -> save();
+        return response() -> json("success");
+
+
+    }
 }

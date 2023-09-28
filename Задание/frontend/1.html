@@ -29,6 +29,15 @@
       <input id="roleInput" type="number" placeholder="Role">
       <button type="button" id="sendButton">Создать пользователя</button>
     </form>
+
+    <form>
+      <label for="label">Изменить данные студента</label>
+      <label>Имя студента</label>
+      <input id="nameStudentInput" type="text" placeholder="Name">
+      <label>Айди студента</label>
+      <input id="idStudentInput" type="number" placeholder="Id">
+      <button type="button" id="changeButton">Изменить</button>
+    </form>
   </div>
 
   <script>
@@ -36,6 +45,22 @@
     const block = document.getElementById("cont")
     const blockPolzovatel = document.getElementById("polzovatel")
     const Imya = document.getElementById("Imya");
+
+    const sendButton = document.getElementById("sendButton");
+
+const nameStudentInput = document.getElementById("nameStudentInput")
+const idStudentInput = document.getElementById("idStudentInput")
+
+
+const changeButton = document.getElementById("changeButton");
+
+const nameInput = document.getElementById("nameInput")
+const loginInput = document.getElementById("loginInput")
+const passwordInput = document.getElementById("passwordInput")
+const roleInput = document.getElementById("roleInput")
+
+
+
 
     const infoStudent = () => {
       fetch('http://localhost:8000/api/student/all', {
@@ -60,6 +85,30 @@
         
 
     }
+
+    const send = () => {
+
+fetch('http://localhost:8000/api/user/create', {
+  method: "POST",
+  headers: {
+    'Content-Type': "application/json",
+  },
+  body: JSON.stringify({
+    login: loginInput.value,
+    password: passwordInput.value,
+    role: roleInput.value,
+    name: nameInput.value
+  })
+})
+  .then((response) => {
+    console.log(response);
+    return response.json();
+
+  })
+  .then((data) => {
+    alert("success")
+  });
+};
 
 
     const infoPolzovatel = () => {
@@ -88,8 +137,31 @@
         ;
 
     }
+
+    const changeInfoStudent = () => {
+      console.log("name" + nameStudentInput.value)
+
+      fetch('http://localhost:8000/api/student/change', {
+        method: "post",
+        headers: {
+          'Content-Type': "application/json",
+        },
+        body: JSON.stringify({
+          id: idStudentInput.value,
+          name: nameStudentInput.value
+        })
+
+      })
+      .then((response) => {
+        return response.json();
+      })
+    }
+    changeButton.addEventListener("click", changeInfoStudent);
     infoPolzovatel()
     infoStudent()
+  
+    sendButton.addEventListener("click", send);
+
 
   </script>
 </body>
