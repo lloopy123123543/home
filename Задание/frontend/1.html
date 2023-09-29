@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="global.css">
-  <title>Document</title>
+  <title>Директор</title>
 </head>
 
 <body>
@@ -19,184 +18,163 @@
       <label>Сотрудники</label>
     </div>
 
-    <!-- <form>
+    <form>
       <label for="label">Добавить пользователя</label>
       <label>Имя</label>
-      <input id="nameInput" type="text" placeholder="Name">
-      <label>Login</label>
-      <input id="loginInput" type="text" placeholder="Login">
-      <label>Password</label>
-      <input id="passwordInput" type="text" placeholder="Password">
-      <label>role</label>
-      <input id="roleInput" type="number" placeholder="Role">
+      <input id="nameInput" type="text" placeholder="Имя">
+      <label>Логин</label>
+      <input id="loginInput" type="text" placeholder="Логин">
+      <label>Пароль</label>
+      <input id="passwordInput" type="text" placeholder="Пароль">
+      <label>Роль</label>
+      <input id="roleInput" type="number" placeholder="Роль">
       <button type="button" id="sendButton">Создать пользователя</button>
-    </form> -->
+    </form>
 
     <form>
       <label for="label">Изменить данные студента</label>
       <label>Имя студента</label>
-      <input id="nameStudentInput" type="text" placeholder="Name">
+      <input id="nameStudentInput" type="text" placeholder="Имя">
       <label>Айди студента</label>
-      <input id="idStudentInput" type="number" placeholder="Id">
+      <input id="idStudentInput" type="number" placeholder="Айди">
       <button type="button" id="changeButton">Изменить</button>
     </form>
 
     <form>
       <label for="label">Удалить студента</label>
       <label>айди студента</label>
-      <input id="deleteId" type="text" placeholder="id">
+      <input id="deleteId" type="text" placeholder="Айди">
       <button type="button" id="deleteButton">Удалить</button>
     </form>
   </div>
 
   <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const block = document.querySelector("#cont");
+      const blockPolzovatel = document.querySelector("#polzovatel");
 
-const block = document.getElementById("cont")
-const blockPolzovatel = document.getElementById("polzovatel")
-const Imya = document.getElementById("Imya");
+      const sendButton = document.querySelector("#sendButton");
 
-const sendButton = document.getElementById("sendButton");
+      const nameStudentInput = document.querySelector("#nameStudentInput");
+      const idStudentInput = document.querySelector("#idStudentInput");
 
-const nameStudentInput = document.getElementById("nameStudentInput")
-const idStudentInput = document.getElementById("idStudentInput")
+      const changeButton = document.querySelector("#changeButton");
 
+      const nameInput = document.querySelector("#nameInput");
+      const loginInput = document.querySelector("#loginInput");
+      const passwordInput = document.querySelector("#passwordInput");
+      const roleInput = document.querySelector("#roleInput");
 
-const changeButton = document.getElementById("changeButton");
+      const deleteButton = document.querySelector("#deleteButton");
+      const deleteId = document.querySelector("#deleteId");
 
-const nameInput = document.getElementById("nameInput")
-const loginInput = document.getElementById("loginInput")
-const passwordInput = document.getElementById("passwordInput")
-const roleInput = document.getElementById("roleInput")
-
-const deleteButton = document.getElementById("deleteButton")
-const deleteId = document.getElementById("deleteId")
-
-
-
-    const infoStudent = () => {
-      fetch('http://localhost:8000/api/student/all', {
-        method: "get",
-
-      })
-        .then((response) => {
-          return response.json();
+      const infoStudent = () => {
+        fetch('http://localhost:8000/api/student/all', {
+          method: "get",
         })
-        .then((data) => {
-          let elems = [];
-          data.map((dat) => {
-            let element = document.createElement("div");
-            element.className = "block";
-            element.innerHTML ="id: " + dat.id + " ФИО: " + dat.name;
-            block.appendChild(element);
+          .then((response) => response.json())
+          .then((data) => {
+            block.innerHTML = "";
+            data.forEach((dat) => {
+              let element = document.createElement("div");
+              element.className = "block";
+              element.innerHTML = "id: " + dat.id + " ФИО: " + dat.name;
+              block.appendChild(element);
+            });
           });
+      };
+
+      const send = () => {
+        fetch('http://localhost:8000/api/user/create', {
+          method: "POST",
+          headers: {
+            'Content-Type': "application/json",
+          },
+          body: JSON.stringify({
+            login: loginInput.value,
+            password: passwordInput.value,
+            role: roleInput.value,
+            name: nameInput.value
           })
-
-          block.innerHTML = elems
-
-        
-
-    }
-
-    const send = () => {
-
-fetch('http://localhost:8000/api/user/create', {
-  method: "POST",
-  headers: {
-    'Content-Type': "application/json",
-  },
-  body: JSON.stringify({
-    login: loginInput.value,
-    password: passwordInput.value,
-    role: roleInput.value,
-    name: nameInput.value
-  })
-})
-  .then((response) => {
-    console.log(response);
-    return response.json();
-
-  })
-  .then((data) => {
-    alert("success")
-  });
-};
-
-
-    const infoPolzovatel = () => {
-      fetch('http://localhost:8000/api/polzovatel/show/all', {
-        method: "get",
-
-      })
-        .then((response) => {
-          return response.json();
         })
-        .then((data) => {
-
-
-
-          let elems = [];
-          data.map((dat) => {
-            let element = document.createElement("div");
-            element.className = "block";
-            element.innerHTML ="id: " + dat.id + " ФИО: " + dat.name + " Роль: " + dat.role;
-            blockPolzovatel.appendChild(element);
+          .then((response) => response.json())
+          .then((data) => {
+            alert("Success");
           });
-          })
-          infoStudent()
-          blockPolzovatel.innerHTML = elems
+      };
 
-        ;
-
-    }
-
-    const changeInfoStudent = () => {
-      console.log("name" + nameStudentInput.value)
-
-      fetch('http://localhost:8000/api/student/change', {
-        method: "post",
-        headers: {
-          'Content-Type': "application/json",
-        },
-        body: JSON.stringify({
-          id: idStudentInput.value,
-          name: nameStudentInput.value
+      const infoPolzovatel = () => {
+        fetch('http://localhost:8000/api/polzovatel/show/all', {
+          method: "get",
         })
+          .then((response) => response.json())
+          .then((data) => {
+            blockPolzovatel.innerHTML = "";
+            data.forEach((dat) => {
+              let element = document.createElement("div");
+              element.className = "block";
+              element.innerHTML = "id: " + dat.id + " ФИО: " + dat.name + " Роль: " + dat.role;
+              blockPolzovatel.appendChild(element);
+            });
+          })
+          .then(() => {
+            infoStudent();
+          });
+      };
 
-      })
-      .then((response) => {
-        return response.json();
-      })
-    }
+      const changeInfoStudent = () => {
+        fetch('http://localhost:8000/api/student/change', {
+          method: "post",
+          headers: {
+            'Content-Type': "application/json",
+          },
+          body: JSON.stringify({
+            id: idStudentInput.value,
+            name: nameStudentInput.value
+          })
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+          });
+      };
 
-    const deleteStudent = () => {
-      fetch('http://localhost:8000/api/student/delete', {
-  method: "POST",
-  headers: {
-    'Content-Type': "application/json",
-  },
-  body: JSON.stringify({
-    id: deleteId.value
-  })
-})
-  .then((response) => {
-    console.log(response);
-    return response.json();
+      const deleteStudent = () => {
+        fetch('http://localhost:8000/api/student/delete', {
+          method: "POST",
+          headers: {
+            'Content-Type': "application/json",
+          },
+          body: JSON.stringify({
+            id: deleteId.value
+          })
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            alert("Успешно");
+          });
+      };
 
-  })
-  .then((data) => {
-    alert("Успешно")
-  });
-};
+      changeButton.addEventListener("click", (event) => {
+        event.preventDefault();
+        changeInfoStudent();
+      });
 
-    changeButton.addEventListener("click", changeInfoStudent);
-    deleteButton.addEventListener("click", deleteStudent);
-    infoPolzovatel()
-    infoStudent()
-  
-    sendButton.addEventListener("click", send);
+      deleteButton.addEventListener("click", (event) => {
+        event.preventDefault();
+        deleteStudent();
+      });
 
+      sendButton.addEventListener("click", (event) => {
+        event.preventDefault();
+        send();
+      });
 
+      // Load initial data
+      infoPolzovatel();
+      infoStudent();
+    });
   </script>
 </body>
-
 </html>

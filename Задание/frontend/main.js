@@ -3,10 +3,9 @@ let passwordInput = document.getElementById("password");
 let sendButton = document.getElementById("sendButton");
 
 // Объявляем функцию send
-const costil = () => {
-    localStorage.clear()
-}
+
 const send = () => {
+
     fetch('http://localhost:8000/api/user/login', {
         method: "POST",
         headers:{
@@ -29,7 +28,5 @@ const send = () => {
   });
 };
 
-// Добавляем обработчик события на кнопку
 
-costil()
 sendButton.addEventListener("click", send);
