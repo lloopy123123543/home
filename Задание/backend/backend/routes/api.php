@@ -36,6 +36,8 @@ Route::prefix('student')->group(function () {
     Route::get('info', [StudentsController::class, 'student']);
     Route::get('all', [StudentsController::class, 'show_all']);
     Route::post('change', [StudentsController::class, 'changeDataStudent']);
+    Route::post('delete', [StudentsController::class, 'deleteStudent']);
+
 });
 
 
@@ -46,4 +48,5 @@ Route::prefix('turniket')->group(function () {
 Route::prefix('polzovatel')->group(function () {
     Route::get('show/all', [StudentsController::class, 'showAllPolzovatels']);
 });
+
 

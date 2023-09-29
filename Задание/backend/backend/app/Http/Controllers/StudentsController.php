@@ -205,4 +205,17 @@ class StudentsController extends BaseController
 
 
     }
+
+    public function deleteStudent(Request $request){
+        $id = $request->input("id");
+        $students = Student::all();
+        foreach($students as $student){
+            if($student->id == $id){
+                $student->delete();
+                return response("deleted");
+            }
+        }
+
+        return response("Student not found");
+    }
 }

@@ -12,10 +12,12 @@
 <body>
   <h1>Директор</h1>
   <div class="container">
-    <label>Студенты</label>
-    <div id="cont"></div>
-    <label>Сотрудники</label>
-    <div id="polzovatel"></div>
+    <div id="cont">
+      <label>Студенты</label>
+    </div>
+    <div id="polzovatel">
+      <label>Сотрудники</label>
+    </div>
 
     <form>
       <label for="label">Добавить пользователя</label>
@@ -38,15 +40,22 @@
       <input id="idStudentInput" type="number" placeholder="Id">
       <button type="button" id="changeButton">Изменить</button>
     </form>
+
+    <form>
+      <label for="label">Удалить студента</label>
+      <label>айди студента</label>
+      <input id="deleteId" type="text" placeholder="id">
+      <button type="button" id="deleteButton">Удалить</button>
+    </form>
   </div>
 
   <script>
 
-    const block = document.getElementById("cont")
-    const blockPolzovatel = document.getElementById("polzovatel")
-    const Imya = document.getElementById("Imya");
+const block = document.getElementById("cont")
+const blockPolzovatel = document.getElementById("polzovatel")
+const Imya = document.getElementById("Imya");
 
-    const sendButton = document.getElementById("sendButton");
+const sendButton = document.getElementById("sendButton");
 
 const nameStudentInput = document.getElementById("nameStudentInput")
 const idStudentInput = document.getElementById("idStudentInput")
@@ -59,6 +68,8 @@ const loginInput = document.getElementById("loginInput")
 const passwordInput = document.getElementById("passwordInput")
 const roleInput = document.getElementById("roleInput")
 
+const deleteButton = document.getElementById("deleteButton")
+const deleteId = document.getElementById("deleteId")
 
 
 
@@ -156,7 +167,29 @@ fetch('http://localhost:8000/api/user/create', {
         return response.json();
       })
     }
+
+    const deleteStudent = () => {
+      fetch('http://localhost:8000/api/student/delete', {
+  method: "POST",
+  headers: {
+    'Content-Type': "application/json",
+  },
+  body: JSON.stringify({
+    id: deleteId.value
+  })
+})
+  .then((response) => {
+    console.log(response);
+    return response.json();
+
+  })
+  .then((data) => {
+    alert("Успешно")
+  });
+};
+
     changeButton.addEventListener("click", changeInfoStudent);
+    deleteButton.addEventListener("click", deleteStudent);
     infoPolzovatel()
     infoStudent()
   
